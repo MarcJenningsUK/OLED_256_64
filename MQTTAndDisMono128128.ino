@@ -311,8 +311,12 @@ void onConnectionEstablished()
 
   for(int i=5; i < 9; i++) {
     page_current = i;
+    DrawPage();
     delay(1000);
   }
+  
+  page_current = 0;
+  DrawPage();
 }
 
 int incomingByte = 0;
