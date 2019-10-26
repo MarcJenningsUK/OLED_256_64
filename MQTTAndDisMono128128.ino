@@ -10,6 +10,7 @@
 #include <Arduino.h>
 #include <U8g2lib.h>
 #include <ArduinoJson.h>
+//#include "weather-min-32.h"
 
 #ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>
@@ -97,6 +98,7 @@ void DrawPage() {
   }
 
   if(page_current==1) {
+  
     // lounge temperature
     u8g2.setFont(u8g2_font_helvB10_tf);
     u8g2.drawStr(0, 30, "Lounge :" );
@@ -128,6 +130,14 @@ void DrawPage() {
     u8g2.drawStr(128, 40, forecastHumidity.c_str() );
   }
   
+//  if(page_current == 4) {
+//    u8g2.setFont(WeatherIcons_min32pt7b);
+//    u8g2.drawStr(0, 60, "A".c_str() );
+//    u8g2.drawStr(64, 60, "B".c_str() );
+//    u8g2.drawStr(128, 60, "C".c_str() );
+//    u8g2.drawStr(192, 60, "D".c_str() );
+//  }
+  
   u8g2.updateDisplayArea(0, 16/8, 256/8, 40/8);
 }
 
@@ -143,10 +153,10 @@ void setup()
   
   u8g2_prepare();
   
+  u8g2.setColorIndex(1);
   u8g2.setFontMode(1);
   u8g2.setDrawColor(2);
   u8g2.clearBuffer();  
-
   u8g2.drawStr(0, 24, "Loading...");
   u8g2.drawStr(0, 40, "Just a sec.");
 
