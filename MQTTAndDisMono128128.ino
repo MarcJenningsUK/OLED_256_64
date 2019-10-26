@@ -5,7 +5,13 @@
   It will also send a message delayed 5 seconds later.
 */
 
+// add the header with local (secret) variables.
 #include <Hayfield.h>
+
+// Add weather icons
+#include "weather.h"
+
+// Add standard libraries
 #include "EspMQTTClient.h"
 #include <Arduino.h>
 #include <U8g2lib.h>
@@ -23,6 +29,8 @@
 //U8G2_SSD1327_EA_W128128_F_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 15, /* data=*/ 2, /* cs=*/ 4, /* dc=*/ 5, /* reset=*/ 18);
 
 U8G2_SSD1322_NHD_256X64_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 33, /* dc=*/ 4, /* reset=*/ 21);  // Enable U8G2_16BIT in u8g2.h
+
+const String vno = "0.7.0";
 
 const String unk = "unknown                           ";
 int page_current = 0;
@@ -130,13 +138,44 @@ void DrawPage() {
     u8g2.drawStr(128, 40, forecastHumidity.c_str() );
   }
   
-//  if(page_current == 4) {
-//    u8g2.setFont(WeatherIcons_min32pt7b);
-//    u8g2.drawStr(0, 60, "A".c_str() );
-//    u8g2.drawStr(64, 60, "B".c_str() );
-//    u8g2.drawStr(128, 60, "C".c_str() );
-//    u8g2.drawStr(192, 60, "D".c_str() );
-//  }
+  if(page_current == 4) {
+    u8g2.clearBuffer();  
+    u8g2.setFont(u8g2_font_helvR24_tf);
+    u8g2.drawStr(0, 20, "Version ");
+    u8g2.drawStr(128, 20, vno.c_str() );
+  }
+  
+  if(page_current == 5) {
+    u8g2.clearBuffer(); 
+    u8g2.drawXBM( 0, 14, u8g_logo_width, u8g_logo_height, gImage_B);
+    u8g2.drawXBM( 64, 14, u8g_logo_width, u8g_logo_height, gImage_C);
+    u8g2.drawXBM( 128, 14, u8g_logo_width, u8g_logo_height, gImage_D);
+    u8g2.drawXBM( 196, 14, u8g_logo_width, u8g_logo_height, gImage_E);
+  }
+  
+  if(page_current == 6) {
+    u8g2.clearBuffer(); 
+    u8g2.drawXBM( 0, 14, u8g_logo_width, u8g_logo_height, gImage_F);
+    u8g2.drawXBM( 64, 14, u8g_logo_width, u8g_logo_height, gImage_G);
+    u8g2.drawXBM( 128, 14, u8g_logo_width, u8g_logo_height, gImage_H);
+    u8g2.drawXBM( 196, 14, u8g_logo_width, u8g_logo_height, gImage_I);
+  }
+  
+  if(page_current == 7) {
+    u8g2.clearBuffer(); 
+    u8g2.drawXBM( 0, 14, u8g_logo_width, u8g_logo_height, gImage_J);
+    u8g2.drawXBM( 64, 14, u8g_logo_width, u8g_logo_height, gImage_K);
+    u8g2.drawXBM( 128, 14, u8g_logo_width, u8g_logo_height, gImage_L);
+    u8g2.drawXBM( 196, 14, u8g_logo_width, u8g_logo_height, gImage_M);
+  }
+  
+  if(page_current == 8) {
+    u8g2.clearBuffer(); 
+    u8g2.drawXBM( 0, 14, u8g_logo_width, u8g_logo_height, gImage_N);
+    u8g2.drawXBM( 64, 14, u8g_logo_width, u8g_logo_height, gImage_O);
+    u8g2.drawXBM( 128, 14, u8g_logo_width, u8g_logo_height, gImage_a);
+  }
+  
   
   u8g2.updateDisplayArea(0, 16/8, 256/8, 40/8);
 }
@@ -269,6 +308,11 @@ void onConnectionEstablished()
   });
   
   SetPlaying(unk.c_str());
+
+  for(int i=5; i < 9; i++) {
+    page_current = i;
+    delay(1000);
+  }
 }
 
 int incomingByte = 0;
